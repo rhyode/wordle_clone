@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/tanmay/Documents/code/winter arc/wordle/wordle_clone'
+relocations:     []
+...
