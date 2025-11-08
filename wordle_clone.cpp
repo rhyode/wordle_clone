@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <string>
 #include <random>  
+#include <fstream>
 using namespace std;
 
 
@@ -20,14 +21,16 @@ string colorize(const string &s, const string &code) {
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    // Small embedded list of 5-letter words (you can expand)
-    vector<string> words = {
-        "about","other","which","their","there","apple","house","media","music","light",
-        "world","point","place","plant","water","match","learn","style","power","young",
-        "smile","happy","tiger","river","ghost","pizza","train","money","right","shirt",
-        "sound","heart","dream","brain","quick","blade","candy","brick","stone","green",
-        "black","white","brown","party","phone","scale","trace","front","under","guard"
-    };
+    // Small embedded list of 5-letter words
+    vector<string> words;
+    ifstream file("words.txt");
+    string w;
+    while (file >> w) {
+        transform(w.begin(), w.end(), w.begin(), ::tolower);
+        if (w.size() == 5)  // only keep 5-letter words
+            words.push_back(w);
+    }
+    file.close();
 
     // Normalize to lower
     for (auto &w : words) {
@@ -58,7 +61,7 @@ int main() {
             transform(guess.begin(), guess.end(), guess.begin(), ::tolower);
             // check if in list (simple validation)
             if (find(words.begin(), words.end(), guess) == words.end()) {
-                cout << "Word not in list (this demo uses a small dictionary). Try another.\n";
+                cout << "Word not in list. Try another.\n";
                 continue;
             }
             break;
@@ -99,8 +102,7 @@ int main() {
                 cout << colorize(ch, "47;30") << " "; // gray/white background
             }
         }
-        cout << "   ";
-        for (int i = 0; i < 5; ++i) cout << result[i];
+        
         cout << "\n\n";
 
         if (guess == secret) {
